@@ -109,6 +109,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
 
     def is_valid_root(self, token: str) -> bool:
         access_token = os.getenv("ACCESS_TOKEN")
+        print(f"token=[{token}] access_token=[{access_token}]")  # debug log
         if access_token is None:
             return True
         return token == access_token.strip()
