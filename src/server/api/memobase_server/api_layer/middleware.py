@@ -44,9 +44,6 @@ class AuthMiddleware(BaseHTTPMiddleware):
         return path
 
     async def dispatch(self, request, call_next):
-        if not request.url.path.startswith("/api"):
-            return await call_next(request)
-
         if request.url.path.startswith("/api/v1/healthcheck"):
             telemetry_manager.increment_counter_metric(
                 CounterMetricName.HEALTHCHECK,
