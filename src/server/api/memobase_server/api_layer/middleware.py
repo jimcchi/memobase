@@ -44,6 +44,10 @@ class AuthMiddleware(BaseHTTPMiddleware):
         return path
 
     async def dispatch(self, request, call_next):
+        # 放行 Swagger UI 文件頁面與 OpenAPI JSON，不需認證
+        if request.url.path.endswith("/docs") or request.url.path.endswith("/openapi.json"):
+            return await call_next(request)
+
         if request.url.path.startswith("/api/v1/healthcheck"):
             telemetry_manager.increment_counter_metric(
                 CounterMetricName.HEALTHCHECK,
